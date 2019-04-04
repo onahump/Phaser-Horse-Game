@@ -3,10 +3,11 @@ GamePlayManager = {   //ObjetoGamePlayManager
         console.log("Init");
     },
     preload: function(){
-        console.log("Preload");
+        game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
     },
     create: function(){
         console.log("Create");
+        game.add.sprite(0,0,'background'); // implementando el background en la esquina superior izquierda coordenadas 0,0
     },
     update: function(){
         console.log("Init");
