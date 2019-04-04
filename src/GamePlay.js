@@ -17,6 +17,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
         this.horse.y = game.height/2 //Posicionando nuestro caballo en el centro de la pantalla
         this.horse.anchor.setTo(0.5); //Tomando el anchor de nuestro caballo justamente en su centro
         this.horse.angle = 0; //Rotando nuestro caballo
+        this.horse.scale.setTo(1,2); //escalando nuestro caballo tanto en X como en Y
     },
     update: function(){
         //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
