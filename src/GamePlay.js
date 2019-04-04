@@ -13,6 +13,8 @@ GamePlayManager = {   //ObjetoGamePlayManager
         game.add.sprite(0,0,'background'); // implementando el background en la esquina superior izquierda coordenadas 0,0
         this.horse = game.add.sprite(0,0, 'horse'); //Guardando la instancia de nuestro caballo para poder acceder a sus propiedades, 'this' se ocupa para que este se encuentre dentro de todo nuestro objeto GamePlayManager
         this.horse.frame = 1 //Accediendo a la propiedad frame y toma el dibujo con los ojos abiertos por el 1, si ponemos 0 toma el dibujo con ojos cerrados.
+        this.horse.x = game.width/2  //Posicionando nuestro caballo en el centro de la pantalla
+        this.horse.y = game.height/2 //Posicionando nuestro caballo en el centro de la pantalla
     },
     update: function(){
         console.log("Init");
