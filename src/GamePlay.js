@@ -25,7 +25,11 @@ GamePlayManager = {   //ObjetoGamePlayManager
         var distX= pointerX - this.horse.x; //Sacando la distancia en X que existe entre nuestro caballo y el mouse
         var distY= pointerY - this.horse.y; //Sacando la distancia en Y que existe entre nuestro caballo y el mouse
 
-
+        if(distX>0){ //si la distancia en X es mayor que 0
+            this.horse.scale.setTo(1,1); //nuestro caballo tiene que ver a la derecha
+        }else{  //sino
+            this.horse.scale.setTo(-1, 1); //nuestro caballo tiene que ver a la izquierda
+        }
 
         console.log('x:' + pointerX);
         console.log('y:' + pointerY);
