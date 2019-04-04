@@ -11,7 +11,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
     create: function(){
         console.log("Create");
         game.add.sprite(0,0,'background'); // implementando el background en la esquina superior izquierda coordenadas 0,0
-        game.add.sprite(0,0, 'horse'); //Agregando nuestro caballo
+        this.horse = game.add.sprite(0,0, 'horse'); //Guardando la instancia de nuestro caballo para poder acceder a sus propiedades, 'this' se ocupa para que este se encuentre dentro de todo nuestro objeto GamePlayManager
     },
     update: function(){
         console.log("Init");
