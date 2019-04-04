@@ -31,6 +31,9 @@ GamePlayManager = {   //ObjetoGamePlayManager
             this.horse.scale.setTo(-1, 1); //nuestro caballo tiene que ver a la izquierda
         }
 
+        this.horse.x += distX * 0.02;
+        this.horse.y += distY * 0.02;
+
         console.log('x:' + pointerX);
         console.log('y:' + pointerY);
 
