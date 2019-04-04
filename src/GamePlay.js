@@ -22,6 +22,10 @@ GamePlayManager = {   //ObjetoGamePlayManager
         var pointerX = game.input.x; //Encontrando las coordenadas de nuestro mouse en X
         var pointerY = game.input.y; //Encontrando las coordenadas de nuestro mouse en Y
 
+        var distX= pointerX - this.horse.x; //Sacando la distancia en X que existe entre nuestro caballo y el mouse
+        var distY= pointerY - this.horse.y; //Sacando la distancia en Y que existe entre nuestro caballo y el mouse
+
+
 
         console.log('x:' + pointerX);
         console.log('y:' + pointerY);
