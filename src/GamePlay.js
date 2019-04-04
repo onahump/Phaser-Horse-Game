@@ -3,6 +3,8 @@ GamePlayManager = {   //ObjetoGamePlayManager
         game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; //Haciendo nuestro juego totalmente responsivo
         game.scale.pageAlignHorizontally = true; //Centrando nuestro juego horizontalmente
         game.scale.pageAlignVertically = true; // Centrando nuestro juego verticalmente
+
+        this.flagFirstMouseDown = false; //Creando una bandera para que nuestro mouse no se mueva
     },
     preload: function(){
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
@@ -16,27 +18,32 @@ GamePlayManager = {   //ObjetoGamePlayManager
         this.horse.x = game.width/2  //Posicionando nuestro caballo en el centro de la pantalla
         this.horse.y = game.height/2 //Posicionando nuestro caballo en el centro de la pantalla
         this.horse.anchor.setTo(0.5); //Tomando el anchor de nuestro caballo justamente en su centro
+
+        game.input.onDown.add(this.onTap, this); // Funcion para cuando el usuario de click en nuestro juego nuestro flag sea verdadero
+    },
+
+    onTap:function(){
+        this.flagFirstMouseDown = true; //vuelve nuestro flag en verdadero
     },
     update: function(){
-        //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
-        var pointerX = game.input.x; //Encontrando las coordenadas de nuestro mouse en X
-        var pointerY = game.input.y; //Encontrando las coordenadas de nuestro mouse en Y
 
-        var distX= pointerX - this.horse.x; //Sacando la distancia en X que existe entre nuestro caballo y el mouse
-        var distY= pointerY - this.horse.y; //Sacando la distancia en Y que existe entre nuestro caballo y el mouse
+        if(this.flagFirstMouseDown){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
+            //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
+            var pointerX = game.input.x; //Encontrando las coordenadas de nuestro mouse en X
+            var pointerY = game.input.y; //Encontrando las coordenadas de nuestro mouse en Y
 
-        if(distX>0){ //si la distancia en X es mayor que 0
-            this.horse.scale.setTo(1,1); //nuestro caballo tiene que ver a la derecha
-        }else{  //sino
-            this.horse.scale.setTo(-1, 1); //nuestro caballo tiene que ver a la izquierda
+            var distX= pointerX - this.horse.x; //Sacando la distancia en X que existe entre nuestro caballo y el mouse
+            var distY= pointerY - this.horse.y; //Sacando la distancia en Y que existe entre nuestro caballo y el mouse
+
+            if(distX>0){ //si la distancia en X es mayor que 0
+                this.horse.scale.setTo(1,1); //nuestro caballo tiene que ver a la derecha
+            }else{  //sino
+                this.horse.scale.setTo(-1, 1); //nuestro caballo tiene que ver a la izquierda
+            }
+
+            this.horse.x += distX * 0.02;
+            this.horse.y += distY * 0.02;
         }
-
-        this.horse.x += distX * 0.02;
-        this.horse.y += distY * 0.02;
-
-        console.log('x:' + pointerX);
-        console.log('y:' + pointerY);
-
     }
 }
 
