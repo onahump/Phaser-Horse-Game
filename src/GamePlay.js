@@ -19,8 +19,8 @@ GamePlayManager = {   //ObjetoGamePlayManager
     },
     update: function(){
         //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
-        var pointerX = game.input.x;
-        var pointerY = game.input.y;
+        var pointerX = game.input.x; //Encontrando las coordenadas de nuestro mouse en X
+        var pointerY = game.input.y; //Encontrando las coordenadas de nuestro mouse en Y
 
 
         console.log('x:' + pointerX);
