@@ -15,6 +15,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
         this.horse.frame = 1 //Accediendo a la propiedad frame y toma el dibujo con los ojos abiertos por el 1, si ponemos 0 toma el dibujo con ojos cerrados.
         this.horse.x = game.width/2  //Posicionando nuestro caballo en el centro de la pantalla
         this.horse.y = game.height/2 //Posicionando nuestro caballo en el centro de la pantalla
+        this.horse.anchor.setTo(0.5); //Tomando el anchor de nuestro caballo justamente en su centro
     },
     update: function(){
         console.log("Init");
