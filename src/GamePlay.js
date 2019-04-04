@@ -6,6 +6,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
     },
     preload: function(){
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
+        game.load.spritesheet('horse', 'assets/images/horse.png', 84, 156, 2) //Cargando nuestro spritesheet en el cual tomamos el primer cballo de mar indicamos las dimensiones del ancho y el largo en conjunto con cuantas imagenes contiene la imagen principal
     },
     create: function(){
         console.log("Create");
