@@ -1,6 +1,8 @@
 GamePlayManager = {   //ObjetoGamePlayManager
     init: function(){
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; //Haciendo nuestro juego totalmente responsivo
+        game.scale.pageAlignHorizontally = true; //Centrando nuestro juego horizontalmente
+        game.scale.pageAlignVertically = true; // Centrando nuestro juego verticalmente
     },
     preload: function(){
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
