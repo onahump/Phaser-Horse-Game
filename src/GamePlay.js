@@ -31,6 +31,36 @@ GamePlayManager = {   //ObjetoGamePlayManager
             diamond.anchor.setTo(0.5); // Asignando el anchor en el centro
             diamond.x = game.rnd.integerInRange(50,1050); //Escogiendo una posicion al azar para x entre 50 y 1050
             diamond.y = game.rnd.integerInRange(50,600);  //Escogiendo una posicion al azar para x entre 50 y 600
+
+            this.diamonds[i] = diamond;
+            var rectCurrenDiamond = this.getBoundsDiamond(diamond);
+            var rectHorse = this.getBoundsDiamond(this.horse);
+
+            while (this.isOverlappingOtherDiamond(i,rectCurrenDiamond) || (this.isRectanglesOverLapping(rectHorse, rectCurrenDiamond))) {
+                diamond.x = game.rnd.integerInRange(50,1050);
+                diamond.y = game.rnd.integerInRange(50,600);
+                rectCurrenDiamond = this.getBoundsDiamond(diamond)
+            }
+        }
+    },
+    getBoundsDiamond:function (currentDiamond) {
+        return new Phaser.Rectangle(currentDiamond.left, currentDiamond.top, currentDiamond.width, currentDiamond.height);
+    },
+    isRectanglesOverLapping:function (rect1, rect2) {
+        if (rect1.x > rect2.x+rect2.width || rect2.x > rect1.x+rect1.width ) {
+            return false;
+        }
+        if (rect1.y > rect2.y+rect2.height || rect2.y > rect1.y+rect1.height) {
+            return false;
+        }
+        return true
+    },
+    isOverlappingOtherDiamond:function (index, rect2) {
+        for (var i = 0; i < index; i++) {
+            var rect1 = this.getBoundsDiamond(this.diamonds[i]);
+            if (this.isRectanglesOverLapping(rect1,rect2)) {
+                return true;
+            }
         }
     },
     onTap:function(){
