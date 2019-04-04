@@ -1,6 +1,6 @@
 GamePlayManager = {   //ObjetoGamePlayManager
     init: function(){
-        console.log("Init");
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
     },
     preload: function(){
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
