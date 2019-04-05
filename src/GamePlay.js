@@ -18,13 +18,28 @@ GamePlayManager = {   //ObjetoGamePlayManager
         game.load.spritesheet('shark', 'assets/images/shark.png');
         game.load.spritesheet('fishes', 'assets/images/fishes.png');
         game.load.spritesheet('mollusk', 'assets/images/mollusk.png');
+        game.load.spritesheet('booble1', 'assets/images/booble1.png');
+        game.load.spritesheet('booble2', 'assets/images/booble2.png');
     },
     create: function(){
         game.add.sprite(0,0,'background'); // implementando el background en la esquina superior izquierda coordenadas 0,0
+
+        this.boobleArray = [];
+
+        for(var i=0; i<AMOUNT_DIAMONDS; i++){
+            var xBooble = game.rnd.integerInRange(1,1140);
+            var yBooble = game.rnd.integerInRange(600,950);
+
+            var booble =  game.add.sprite(xBooble, yBooble, 'booble' + game.rnd.integerInRange(1,2));
+            booble.vel = 0.2 + game.rnd.frac() * 2;
+            booble.alpha = 0.9;
+            booble.scale.setTo( 0.2 + game.rnd.frac());
+            this.boobleArray[i] = booble
+        }
+
         this.mollusk = game.add.sprite(500,200,'mollusk');
         this.shark = game.add.sprite(500,20,'shark');
         this.fishes = game.add.sprite(20,500,'fishes');
-
 
         this.horse = game.add.sprite(0,0, 'horse'); //Guardando la instancia de nuestro caballo para poder acceder a sus propiedades, 'this' se ocupa para que este se encuentre dentro de todo nuestro objeto GamePlayManager
         this.horse.frame = 1; //Accediendo a la propiedad frame y toma el dibujo con los ojos abiertos por el 1, si ponemos 0 toma el dibujo con ojos cerrados.
@@ -172,6 +187,16 @@ GamePlayManager = {   //ObjetoGamePlayManager
 
         if(this.flagFirstMouseDown && !this.endGame){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
             //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
+
+            for(var i=0; i<AMOUNT_DIAMONDS; i++){
+                var booble = this.boobleArray[i];
+                booble.y -= booble.vel;
+                if (booble.y < -50) {
+                    booble.y = 700;
+                    booble.x = game.rnd.integerInRange(1,1140);
+                }
+            }
+
             this.shark.x--;
             if(this.shark.x < -300){
                 this.shark.x = 1300;
