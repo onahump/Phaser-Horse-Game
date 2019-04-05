@@ -7,6 +7,8 @@ GamePlayManager = {   //ObjetoGamePlayManager
         game.scale.pageAlignVertically = true; // Centrando nuestro juego verticalmente
 
         this.flagFirstMouseDown = false; //Creando una bandera para que nuestro mouse no se mueva
+        this.amountDiamondsCaught = 0;
+        this.endGame = false;
     },
     preload: function(){
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
@@ -72,6 +74,32 @@ GamePlayManager = {   //ObjetoGamePlayManager
     increaseScore: function(){
         this.currentScore += 100;
         this.scoreText.text = this.currentScore;
+
+        this.amountDiamondsCaught += 1;
+        if(this.amountDiamondsCaught >= AMOUNT_DIAMONDS){
+            this.showFinalMessage('CONGRATULATIOSNS');
+            this.endGame = true;
+        }
+    },
+    showFinalMessage: function (msg){
+        var bgAlpha = game.add.bitmapData(game.width, game.height);
+        bgAlpha.ctx.fillStyle = '#000000';
+        bgAlpha.ctx.fillRect(0,0, game.width, game.height);
+
+        var bg = game.add.sprite(0,0, bgAlpha);
+        bg.alpha = 0.5;
+
+        var style = {
+            font: 'bold 60pt Arial',
+            fill: '#FFFFFF',
+            align: 'center'
+        }
+
+        this.textFieldFinalMsg = game.add.text(game.width/2, game.height/2, msg, style);
+        this.textFieldFinalMsg.anchor.setTo(0.5);
+
+
+
     },
     getBoundsDiamond:function (currentDiamond) {
         return new Phaser.Rectangle(currentDiamond.left, currentDiamond.top, currentDiamond.width, currentDiamond.height);
@@ -112,7 +140,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
     },*/
     update: function(){
 
-        if(this.flagFirstMouseDown){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
+        if(this.flagFirstMouseDown && !this.endGame){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
             //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
             var pointerX = game.input.x; //Encontrando las coordenadas de nuestro mouse en X
             var pointerY = game.input.y; //Encontrando las coordenadas de nuestro mouse en Y
