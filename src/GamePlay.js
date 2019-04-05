@@ -9,6 +9,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
         this.flagFirstMouseDown = false; //Creando una bandera para que nuestro mouse no se mueva
         this.amountDiamondsCaught = 0;
         this.endGame = false;
+        this.countSmile = -1;
     },
     preload: function(){
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
@@ -111,6 +112,9 @@ GamePlayManager = {   //ObjetoGamePlayManager
 
     },
     increaseScore: function(){
+        this.countSmile = 0;
+        this.horse.frame = 1;
+
         this.currentScore += 100;
         this.scoreText.text = this.currentScore;
 
@@ -184,6 +188,14 @@ GamePlayManager = {   //ObjetoGamePlayManager
         }
     },*/
     update: function(){
+
+        if(this.countSmile >= 0){
+            this.countSmile++;
+            if(this.countSmile>50){
+                this.countSmile = -1;
+                this.horse.frame = 0;
+            }
+        }
 
         if(this.flagFirstMouseDown && !this.endGame){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
             //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
