@@ -57,6 +57,21 @@ GamePlayManager = {   //ObjetoGamePlayManager
             this.explosion.anchor.setTo(0.5);//Configurando el anchor de nuestro explosion
             this.explosion.kill(); //  Explosion no es visible
         }
+
+        this.currentScore = 0;
+        var style = {
+                font: 'bold 30pt Arial',
+                fill: '#FFFF',
+                align: 'center'
+        }
+
+        this.scoreText = game.add.text(game.width/2, 40, '0', style);
+        this.scoreText.anchor.setTo(0.5)
+
+    },
+    increaseScore: function(){
+        this.currentScore += 100;
+        this.scoreText.text = this.currentScore;
     },
     getBoundsDiamond:function (currentDiamond) {
         return new Phaser.Rectangle(currentDiamond.left, currentDiamond.top, currentDiamond.width, currentDiamond.height);
@@ -118,6 +133,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
                 var rectHorse = this.getsBoundsHorse();
                 var rectDiamond = this.getBoundsDiamond(this.diamonds[i]);
                 if (this.diamonds[i].visible && this.isRectanglesOverLapping(rectHorse, rectDiamond)) {
+                    this.increaseScore();
                     this.diamonds[i].visible = false //escondiendo el diamante cuando este hace colision
 
                     var explosion = this.explosionGroup.getFirstDead();  //pidiendo 1 elemento del grupo para que se pueda ocupar
