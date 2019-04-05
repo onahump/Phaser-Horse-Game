@@ -67,8 +67,8 @@ GamePlayManager = {   //ObjetoGamePlayManager
         this.flagFirstMouseDown = true; //vuelve nuestro flag en verdadero
     },
     getsBoundsHorse: function () { //tomando el cuadro del caballo
-        var x0 = this.horse.x - Math.abs(this.horse.width)/2;
-        var width = Math.abs(this.horse.width);
+        var x0 = this.horse.x - Math.abs(this.horse.width)/4;
+        var width = Math.abs(this.horse.width)/2;
         var y0 = this.horse.y - this.horse.height/2;
         var height = this.horse.height;
 
