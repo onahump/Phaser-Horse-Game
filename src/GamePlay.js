@@ -66,6 +66,20 @@ GamePlayManager = {   //ObjetoGamePlayManager
     onTap:function(){
         this.flagFirstMouseDown = true; //vuelve nuestro flag en verdadero
     },
+    getsBoundsHorse: function () { //tomando el cuadro del caballo
+        var x0 = this.horse.x - Math.abs(this.horse.width)/2;
+        var width = Math.abs(this.horse.width);
+        var y0 = this.horse.y - this.horse.height/2;
+        var height = this.horse.height;
+
+        return new Phaser.Rectangle(x0, y0, width, height);
+    },
+    render: function(){
+        game.debug.spriteBounds(this.horse);
+        for(var i= 0; i<AMOUNT_DIAMONDS; i++){
+            game.debug.spriteBounds(this.diamonds[i]);
+        }
+    },
     update: function(){
 
         if(this.flagFirstMouseDown){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
@@ -84,6 +98,14 @@ GamePlayManager = {   //ObjetoGamePlayManager
 
             this.horse.x += distX * 0.02;
             this.horse.y += distY * 0.02;
+
+            for (var i = 0; i < AMOUNT_DIAMONDS; i++) {
+                var rectHorse = this.getsBoundsHorse();
+                var rectDiamond = this.getBoundsDiamond(this.diamonds[i]);
+                if (this.isRectanglesOverLapping(rectHorse, rectDiamond)) {
+                    console.log("Colisionando")
+                }
+            }
         }
     }
 }
