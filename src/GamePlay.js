@@ -44,16 +44,19 @@ GamePlayManager = {   //ObjetoGamePlayManager
             }
         }
 
-        this.explosion = game.add.sprite(100,100, 'explosion'); //cargando explosion
-        this.explosion.tweenScale = game.add.tween(this.explosion.scale).to({ //agregando el tween al sprite explosion con la propiedad escala
-                                    x: [0.4, 0.8, 0.4], // arranca en 0,4 y termina en 0.4
-                                    y: [0.4, 0.8, 0.4]
-        }, 600, Phaser.Easing.Exponential.out, false, 0, 0, false); //600 milisegundos, usando el easing, false para autostart, 0 delay, 0 veces para repetir el twening, false si queremos usar el show show para que vaya y vuelva
-        this.explosion.tweenAlpha = game.add.tween(this.explosion).to({ //Modificando el brillo de nuestra explosion para la animacion
-                                    alpha: [1, 0.5, 0]
-        }, 600, Phaser.Easing.Exponential.out, false, 0, 0, false);
-        this.explosion.anchor.setTo(0.5);//Configurando el anchor de nuestro explosion
-        this.explosion.visible = false; //  Explosion no es visible
+        this.explosionGroup = game.add.group(); //creando un grupo
+        for(var i=0; i<10; i++){
+            this.explosion = this.explosionGroup.create(100,100, 'explosion'); // cargando 10 explosiones para asiganarlas al grupo
+            this.explosion.tweenScale = game.add.tween(this.explosion.scale).to({ //agregando el tween al sprite explosion con la propiedad escala
+                                        x: [0.4, 0.8, 0.4], // arranca en 0,4 y termina en 0.4
+                                        y: [0.4, 0.8, 0.4]
+            }, 600, Phaser.Easing.Exponential.out, false, 0, 0, false); //600 milisegundos, usando el easing, false para autostart, 0 delay, 0 veces para repetir el twening, false si queremos usar el show show para que vaya y vuelva
+            this.explosion.tweenAlpha = game.add.tween(this.explosion).to({ //Modificando el brillo de nuestra explosion para la animacion
+                                        alpha: [1, 0.5, 0]
+            }, 600, Phaser.Easing.Exponential.out, false, 0, 0, false);
+            this.explosion.anchor.setTo(0.5);//Configurando el anchor de nuestro explosion
+            this.explosion.kill(); //  Explosion no es visible
+        }
     },
     getBoundsDiamond:function (currentDiamond) {
         return new Phaser.Rectangle(currentDiamond.left, currentDiamond.top, currentDiamond.width, currentDiamond.height);
@@ -117,12 +120,17 @@ GamePlayManager = {   //ObjetoGamePlayManager
                 if (this.diamonds[i].visible && this.isRectanglesOverLapping(rectHorse, rectDiamond)) {
                     this.diamonds[i].visible = false //escondiendo el diamante cuando este hace colision
 
-                    this.explosion.visible = true; //haciendo visible la explision
-                    this.explosion.x = this.diamonds[i].x; //asignangole a la explosion las coordenadas en x & y del diamante
-                    this.explosion.y = this.diamonds[i].y;
+                    var explosion = this.explosionGroup.getFirstDead();  //pidiendo 1 elemento del grupo para que se pueda ocupar
+                    if(explosion != null){ // verificando que la explision sea diferente de nulo
+                        explosion.reset(this.diamonds[i].x , this.diamonds[i].y); //dando las coordenadas del diamante tanto en x como en y
 
-                    this.explosion.tweenScale.start(); //iniciando el tweens
-                    this.explosion.tweenAlpha.start();
+                        explosion.tweenScale.start(); //iniciando el tweens
+                        explosion.tweenAlpha.start();
+
+                        explosion.tweenAlpha.onComplete.add(function (currentTarget, currentTween){
+                            currentTarget.kill();   //elimanndo el elemento del grupo que se esta ocupando para poder ocuparlo mas adelante
+                        }, this);
+                    }
                 }
             }
         }
