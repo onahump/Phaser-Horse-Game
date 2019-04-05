@@ -12,6 +12,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
         game.load.image('background', 'assets/images/background.png'); //cargando la imagen del backgroud
         game.load.spritesheet('horse', 'assets/images/horse.png', 84, 156, 2); //Cargando nuestro spritesheet en el cual tomamos el primer cballo de mar indicamos las dimensiones del ancho y el largo en conjunto con cuantas imagenes contiene la imagen principal
         game.load.spritesheet('diamonds', 'assets/images/diamonds.png', 81, 84, 4);
+        game.load.spritesheet('explosion', 'assets/images/explosion.png');
     },
     create: function(){
         game.add.sprite(0,0,'background'); // implementando el background en la esquina superior izquierda coordenadas 0,0
@@ -42,6 +43,17 @@ GamePlayManager = {   //ObjetoGamePlayManager
                 rectCurrenDiamond = this.getBoundsDiamond(diamond)
             }
         }
+
+        this.explosion = game.add.sprite(100,100, 'explosion'); //cargando explosion
+        this.explosion.tweenScale = game.add.tween(this.explosion.scale).to({ //agregando el tween al sprite explosion con la propiedad escala
+                                    x: [0.4, 0.8, 0.4], // arranca en 0,4 y termina en 0.4
+                                    y: [0.4, 0.8, 0.4]
+        }, 600, Phaser.Easing.Exponential.out, false, 0, 0, false); //600 milisegundos, usando el easing, false para autostart, 0 delay, 0 veces para repetir el twening, false si queremos usar el show show para que vaya y vuelva
+        this.explosion.tweenAlpha = game.add.tween(this.explosion).to({ //Modificando el brillo de nuestra explosion para la animacion
+                                    alpha: [1, 0.5, 0]
+        }, 600, Phaser.Easing.Exponential.out, false, 0, 0, false);
+        this.explosion.anchor.setTo(0.5);//Configurando el anchor de nuestro explosion
+        this.explosion.visible = false; //  Explosion no es visible
     },
     getBoundsDiamond:function (currentDiamond) {
         return new Phaser.Rectangle(currentDiamond.left, currentDiamond.top, currentDiamond.width, currentDiamond.height);
@@ -74,12 +86,12 @@ GamePlayManager = {   //ObjetoGamePlayManager
 
         return new Phaser.Rectangle(x0, y0, width, height);
     },
-    render: function(){
+    /* render: function(){
         game.debug.spriteBounds(this.horse);
         for(var i= 0; i<AMOUNT_DIAMONDS; i++){
             game.debug.spriteBounds(this.diamonds[i]);
         }
-    },
+    },*/
     update: function(){
 
         if(this.flagFirstMouseDown){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
@@ -102,8 +114,15 @@ GamePlayManager = {   //ObjetoGamePlayManager
             for (var i = 0; i < AMOUNT_DIAMONDS; i++) {
                 var rectHorse = this.getsBoundsHorse();
                 var rectDiamond = this.getBoundsDiamond(this.diamonds[i]);
-                if (this.isRectanglesOverLapping(rectHorse, rectDiamond)) {
-                    console.log("Colisionando")
+                if (this.diamonds[i].visible && this.isRectanglesOverLapping(rectHorse, rectDiamond)) {
+                    this.diamonds[i].visible = false //escondiendo el diamante cuando este hace colision
+
+                    this.explosion.visible = true; //haciendo visible la explision
+                    this.explosion.x = this.diamonds[i].x; //asignangole a la explosion las coordenadas en x & y del diamante
+                    this.explosion.y = this.diamonds[i].y;
+
+                    this.explosion.tweenScale.start(); //iniciando el tweens
+                    this.explosion.tweenAlpha.start();
                 }
             }
         }
