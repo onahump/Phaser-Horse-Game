@@ -15,9 +15,17 @@ GamePlayManager = {   //ObjetoGamePlayManager
         game.load.spritesheet('horse', 'assets/images/horse.png', 84, 156, 2); //Cargando nuestro spritesheet en el cual tomamos el primer cballo de mar indicamos las dimensiones del ancho y el largo en conjunto con cuantas imagenes contiene la imagen principal
         game.load.spritesheet('diamonds', 'assets/images/diamonds.png', 81, 84, 4);
         game.load.spritesheet('explosion', 'assets/images/explosion.png');
+        game.load.spritesheet('shark', 'assets/images/shark.png');
+        game.load.spritesheet('fishes', 'assets/images/fishes.png');
+        game.load.spritesheet('mollusk', 'assets/images/mollusk.png');
     },
     create: function(){
         game.add.sprite(0,0,'background'); // implementando el background en la esquina superior izquierda coordenadas 0,0
+        this.mollusk = game.add.sprite(500,200,'mollusk');
+        this.shark = game.add.sprite(500,20,'shark');
+        this.fishes = game.add.sprite(20,500,'fishes');
+
+
         this.horse = game.add.sprite(0,0, 'horse'); //Guardando la instancia de nuestro caballo para poder acceder a sus propiedades, 'this' se ocupa para que este se encuentre dentro de todo nuestro objeto GamePlayManager
         this.horse.frame = 1; //Accediendo a la propiedad frame y toma el dibujo con los ojos abiertos por el 1, si ponemos 0 toma el dibujo con ojos cerrados.
         this.horse.x = game.width/2;  //Posicionando nuestro caballo en el centro de la pantalla
@@ -99,6 +107,7 @@ GamePlayManager = {   //ObjetoGamePlayManager
         }
     },
     showFinalMessage: function (msg){
+        this.tweenMollusk.stop();
         var bgAlpha = game.add.bitmapData(game.width, game.height);
         bgAlpha.ctx.fillStyle = '#000000';
         bgAlpha.ctx.fillRect(0,0, game.width, game.height);
@@ -139,7 +148,11 @@ GamePlayManager = {   //ObjetoGamePlayManager
         }
     },
     onTap:function(){
-        this.flagFirstMouseDown = true; //vuelve nuestro flag en verdadero
+        if(!this.flagFirstMouseDown){
+            this.tweenMollusk = game.add.tween(this.mollusk.position).to({
+                y:-0.001}, 5800, Phaser.Easing.Cubic.InOut, true, 0, 1000, true).loop(true);
+            }
+            this.flagFirstMouseDown = true; //vuelve nuestro flag en verdadero
     },
     getsBoundsHorse: function () { //tomando el cuadro del caballo
         var x0 = this.horse.x - Math.abs(this.horse.width)/4;
@@ -159,6 +172,16 @@ GamePlayManager = {   //ObjetoGamePlayManager
 
         if(this.flagFirstMouseDown && !this.endGame){ //Hasta que nuestro flag sea verdadero se correra este bloque de codigo
             //this.horse.angle +=1 Rotando nuestro caballo 1 posicion mas cada frame
+            this.shark.x--;
+            if(this.shark.x < -300){
+                this.shark.x = 1300;
+            }
+
+            this.fishes.x+=0.3;
+            if(this.shark.x > 1300){
+                this.shark.x = -100;
+            }
+
             var pointerX = game.input.x; //Encontrando las coordenadas de nuestro mouse en X
             var pointerY = game.input.y; //Encontrando las coordenadas de nuestro mouse en Y
 
